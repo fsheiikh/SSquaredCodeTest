@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EmployeeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="EmployeeRoles">
+    <Key>
+      <PropertyRef Name="RoleID" />
+      <PropertyRef Name="EmployeeID" />
+    </Key>
+    <Property Name="RoleID" Type="int" Nullable="false" />
+    <Property Name="EmployeeID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Employees">
+    <Key>
+      <PropertyRef Name="EmployeeID" />
+    </Key>
+    <Property Name="EmployeeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ManagerID" Type="int" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="RoleID" Type="int" Nullable="false" />
+    <Property Name="RoleName" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__EmployeeR__Emplo__46E78A0C">
+    <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+    <End Role="EmployeeRoles" Type="Self.EmployeeRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="EmployeeID" />
+      </Principal>
+      <Dependent Role="EmployeeRoles">
+        <PropertyRef Name="EmployeeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__EmployeeR__RoleI__45F365D3">
+    <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+    <End Role="EmployeeRoles" Type="Self.EmployeeRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="RoleID" />
+      </Principal>
+      <Dependent Role="EmployeeRoles">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Employees__Manag__3E52440B">
+    <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+    <End Role="EmployeesUnder" Type="Self.Employees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="EmployeeID" />
+      </Principal>
+      <Dependent Role="EmployeesUnder">
+        <PropertyRef Name="ManagerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EmployeeModelStoreContainer">
+    <EntitySet Name="EmployeeRoles" EntityType="Self.EmployeeRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__EmployeeR__Emplo__46E78A0C" Association="Self.FK__EmployeeR__Emplo__46E78A0C">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="EmployeeRoles" EntitySet="EmployeeRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK__EmployeeR__RoleI__45F365D3" Association="Self.FK__EmployeeR__RoleI__45F365D3">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="EmployeeRoles" EntitySet="EmployeeRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Employees__Manag__3E52440B" Association="Self.FK__Employees__Manag__3E52440B">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="EmployeesUnder" EntitySet="Employees" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

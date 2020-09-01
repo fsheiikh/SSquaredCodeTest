@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EmployeeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="EmployeeID" />
+    </Key>
+    <Property Name="EmployeeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ManagerID" Type="Int32" />
+    <NavigationProperty Name="EmployeesUnder" Relationship="Self.FK__Employees__Manag__3E52440B" FromRole="Employees" ToRole="EmployeesUnder" />
+    <NavigationProperty Name="Manager" Relationship="Self.FK__Employees__Manag__3E52440B" FromRole="EmployeesUnder" ToRole="Employees" />
+    <NavigationProperty Name="Roles" Relationship="Self.EmployeeRoles" FromRole="Employees" ToRole="Roles" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="RoleID" Type="Int32" Nullable="false" />
+    <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Employees" Relationship="Self.EmployeeRoles" FromRole="Roles" ToRole="Employees" />
+  </EntityType>
+  <Association Name="FK__Employees__Manag__3E52440B">
+    <End Role="Employees" Type="Self.Employee" Multiplicity="0..1" />
+    <End Role="EmployeesUnder" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="EmployeeID" />
+      </Principal>
+      <Dependent Role="EmployeesUnder">
+        <PropertyRef Name="ManagerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EmployeeRoles">
+    <End Role="Employees" Type="Self.Employee" Multiplicity="*" />
+    <End Role="Roles" Type="Self.Role" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="SchoolEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Employees" EntityType="Self.Employee" />
+    <EntitySet Name="Roles" EntityType="Self.Role" />
+    <AssociationSet Name="FK__Employees__Manag__3E52440B" Association="Self.FK__Employees__Manag__3E52440B">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="EmployeesUnder" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="EmployeeRoles" Association="Self.EmployeeRoles">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="Roles" EntitySet="Roles" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

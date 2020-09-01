@@ -1,0 +1,50 @@
+﻿@model SSquaredApplication.ViewModels.EmployeeListViewModel
+
+@{
+    ViewBag.Title = "";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<form id="myForm" action="/Employees/Index" method="get">
+    <Label>Manager:</Label>
+    @Html.DropDownListFor(Model => Model.ManagerID, new SelectList(Model.Managers, "EmployeeID", "FullName"), "Select Manager", new { id = "managerDropDown" })
+</form>
+
+
+<table class="table">
+    <tr>
+        <th>Employee ID</th>
+        <th>First Name </th>
+        <th>Last Name</th>
+    </tr>
+
+    @foreach (var item in Model.Employees)
+    {
+        <tr>
+            <td>
+                @item.EmployeeID
+            </td>
+            <td>
+                @item.FirstName
+            </td>
+            <td>
+                @item.LastName
+            </td>
+        </tr>
+    }
+
+</table>
+<p>
+    @Html.ActionLink("Add Employee", "Create")
+</p>
+
+<script type="text/javascript">
+    $(function () {
+        $('#managerDropDown').change(function () {
+            var url = '/Employees/Index/' + $(this).val();
+            if (url != null && url != '') {
+                window.location.href = url;
+            }
+        });
+    });
+</script>

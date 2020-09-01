@@ -1,0 +1,75 @@
+﻿@model SSquaredApplication.ViewModels.CreateEmployeeViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Add New Employee</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <label>Manager: </label>
+            @Html.DropDownListFor(Model => Model.Employee.ManagerID, new SelectList(Model.Managers, "EmployeeID", "FullName"), "Select Manager")
+            @Html.ValidationMessageFor(Model => Model.Employee.Manager, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <label>Employee ID: </label>
+            @Html.EditorFor(model => model.Employee.EmployeeID, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Employee.EmployeeID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <label>First Name: </label>
+            @Html.EditorFor(model => model.Employee.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Employee.FirstName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <label>Last Name: </label>
+            @Html.EditorFor(model => model.Employee.LastName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Employee.LastName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <label>Roles: </label>
+            @Html.ListBoxFor(Model => Model.RoleIDs, new SelectList(Model.Roles, "RoleID", "RoleName"))
+            @Html.ValidationMessageFor(model => model.Roles, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+            <a href="/Employees/Index" class="btn btn-default">Cancel</a>
+        </div>
+
+    </div>
+
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
