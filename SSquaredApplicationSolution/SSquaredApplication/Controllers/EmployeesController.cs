@@ -11,13 +11,23 @@ namespace SSquaredApplication.Controllers
 {
     public class EmployeesController : Controller
     {
-        // GET: Employees
-        public ActionResult Index(int managerID = 1)
+
+        //GET: Employees/Index
+        public ActionResult Index()
         {
-            EmployeeListViewModel employeeListViewModel = EmployeeUtility.GetEmployeeViewModelByManagerID(managerID);
+            EmployeeListViewModel employeeListViewModel = EmployeeUtility.GetEmployeeViewModelEmpty();
 
             return View(employeeListViewModel);
         }
+
+        // GET: Employees/Manager/id
+        public ActionResult Manager(int managerID)
+        {
+            EmployeeListViewModel employeeListViewModel = EmployeeUtility.GetEmployeeViewModelByManagerID(managerID);
+
+            return View("Index", employeeListViewModel);
+        }
+
 
         // GET: Employees/Create
         public ActionResult Create()
@@ -35,7 +45,7 @@ namespace SSquaredApplication.Controllers
             {
                 EmployeeUtility.SubmitNewEmployeeData(employeeFormData);
 
-                return RedirectToAction("Index", "");
+                return RedirectToAction("Index");
             }
             catch
             {

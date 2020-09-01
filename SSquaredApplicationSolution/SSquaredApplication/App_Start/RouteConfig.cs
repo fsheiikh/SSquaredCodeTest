@@ -15,8 +15,14 @@ namespace SSquaredApplication
 
             routes.MapRoute(
                 name: "Default",
+                url: "{controller}/{action}",
+                defaults: new { controller = "Employees", action = "Index" }
+            );
+
+            routes.MapRoute(
+                name: "Manager",
                 url: "{controller}/{action}/{managerID}",
-                defaults: new { controller = "Employees", action = "Index", managerID = UrlParameter.Optional }
+                defaults: new { controller = "Employees", action = "Manager", managerID = UrlParameter.Optional }
             );
         }
     }

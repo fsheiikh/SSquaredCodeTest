@@ -1,0 +1,45 @@
+CREATE TABLE Roles (
+    RoleID int NOT NULL PRIMARY KEY,
+    RoleName varchar(50) NOT NULL,
+);
+
+
+CREATE TABLE Employees (
+    EmployeeID int NOT NULL PRIMARY KEY,
+    FirstName varchar(50) NOT NULL,
+    LastName varchar(50) NOT NULL,
+    ManagerID int FOREIGN KEY REFERENCES Employees(EmployeeID)
+);
+
+
+
+CREATE TABLE EmployeeRoles (
+	RoleID int FOREIGN KEY REFERENCES Roles (RoleID),
+	EmployeeID int FOREIGN KEY REFERENCES Employees(EmployeeID)
+	primary key (RoleId, EmployeeId)
+);
+
+--option 1. ALTER TABLE Employees ADD CONSTRAINT fk_role FOREIGN KEY (RoleID) references Roles(RoleID) 
+
+
+###########################################################################
+
+
+
+--match up manager and employees
+SELECT Employee.FirstName + ' ' +  Employee.LastName
+AS Employee, 
+Manager.FirstName  + ' ' + Manager.LastName
+AS Manager
+FROM Employees Employee, Employees Manager
+WHERE Employee.ManagerID = Manager.EmployeeID
+
+--get employee roles by joining employees and roles 
+SELECT  role.RoleName, employee.FirstName + ' ' + employee.LastName as Employee
+FROM    Employees employee
+JOIN    EmployeeRoles empRole
+ON      employee.EmployeeID = empRole.EmployeeID
+JOIN    Roles role
+ON      empRole.RoleID = role.RoleID
+
+ 

@@ -22,6 +22,16 @@ namespace SSquaredApplication.Utility
 
         }
 
+        public static EmployeeListViewModel GetEmployeeViewModelEmpty()
+        {
+            EmployeeListViewModel employeesViewModel = new EmployeeListViewModel();
+            EmployeeRepository employeeRepo = new EmployeeRepository();
+
+            employeesViewModel.Managers = employeeRepo.GetManagers();
+
+            return employeesViewModel;
+        }
+
         public static CreateEmployeeViewModel GetCreateEmployeeViewModel()
         {
             CreateEmployeeViewModel createEmployeeViewModel = new CreateEmployeeViewModel();
